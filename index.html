@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Nuzu ✨</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background: #0f0c20; color: #fff; overflow-x: hidden; text-align: center; min-height: 100vh; position: relative; }
+        
+        /* Strict Screen Control */
+        .screen { display: none; min-height: 100vh; width: 100%; flex-direction: column; justify-content: center; align-items: center; padding: 20px; position: absolute; top: 0; left: 0; }
+        .active { display: flex !important; position: relative; }
+        
+        /* Slide Animation */
+        .slide-in { animation: slideInRight 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        /* Premium Buttons - Mobile Optimized */
+        .btn { background: linear-gradient(45deg, #ff4b91, #ff7676); color: white; border: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 25px; cursor: pointer; box-shadow: 0 5px 15px rgba(255, 75, 145, 0.4); transition: 0.3s; margin-top: 25px; text-decoration: none; width: auto; max-width: 90%; }
+        .btn:hover { transform: scale(1.05); }
+
+        /* Screens Styling */
+        #pass-screen { background: radial-gradient(circle, #1a103c, #05021a); z-index: 10; }
+        .lock-icon { font-size: 50px; margin-bottom: 20px; }
+        input[type="password"] { background: rgba(255,255,255,0.1); border: 2px solid #ff4b91; padding: 12px 20px; width: 250px; border-radius: 25px; color: white; font-size: 18px; text-align: center; outline: none; margin-bottom: 10px; }
+        
+        #wish-screen { background: linear-gradient(to bottom, #110d29, #240b36); }
+        .big-wish { font-size: 36px; font-weight: 900; color: #fff; text-shadow: 0 0 10px #ff4b91, 0 0 20px #ff4b91; line-height: 1.3; }
+        .sub-wish { font-size: 24px; color: #ff7676; font-weight: bold; margin-top: 10px; }
+
+        #fairy-screen { background: linear-gradient(135deg, #1d0a34, #05021a); }
+        #text-screen { background: #0b0822; }
+        .big-bold-text { font-size: 30px; font-weight: 800; color: #fff; text-shadow: 0 0 15px #ff7676; padding: 0 15px; line-height: 1.5; }
+
+        /* Posters - 100% Mobile Responsive */
+        .poster-screen { background: #070514; }
+        .poster-wrapper { width: 100%; max-width: 340px; border-radius: 20px; overflow: hidden; box-shadow: 0 12px 35px rgba(0,0,0,0.9); border: 4px solid rgba(255, 75, 145, 0.4); margin: 20px 0; background: #141124; }
+        .poster-wrapper img { width: 100%; height: auto; max-height: 450px; display: block; object-fit: contain; margin: 0 auto; }
+
+        /* Balloon Screen Style - Mobile Friendly */
+        #balloon-screen { background: linear-gradient(to bottom, #0f0c20, #180933); }
+        .balloon-container { display: flex; gap: 20px; margin: 40px 0; justify-content: center; width: 100%; }
+        .balloon { font-size: 55px; cursor: pointer; transition: transform 0.1s; user-select: none; animation: float 2s ease-in-out infinite alternate; }
+        .balloon:nth-child(2) { animation-delay: 0.5s; }
+        .balloon:nth-child(3) { animation-delay: 1s; }
+        @keyframes float {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+        .popped { transform: scale(0); opacity: 0; pointer-events: none; transition: 0.2s ease-out; }
+
+        /* Cake Screen */
+        #cake-screen { background: linear-gradient(to top, #0f0c20, #1f104f); }
+        .cake-container { position: relative; margin: 25px 0; }
+        .cake-emoji { font-size: 90px; display: block; transition: 0.3s; }
+        .candle { font-size: 30px; position: absolute; top: -25px; left: 50%; transform: translateX(-50%); cursor: pointer; transition: 0.3s; }
+        .candle.blown { opacity: 0; transform: translateX(-50%) scale(0); }
+
+        /* Mini Game */
+        #mini-game-screen { background: linear-gradient(to bottom, #110d29, #1a103c); }
+        .box-container { display: flex; gap: 20px; margin-top: 30px; justify-content: center; width: 100%; }
+        .gift-box-emoji { font-size: 55px; cursor: pointer; transition: 0.3s; }
+        .gift-box-emoji:hover { transform: scale(1.2); }
+
+        /* Final Screen - Beautiful Scrolling on Mobile */
+        #main-screen { background: linear-gradient(to bottom, #0f0c20, #190a35, #2c0936); display: none; flex-direction: column; align-items: center; padding: 30px 15px; width: 100%; overflow-y: auto; min-height: 100vh; }
+        .letter-box { background: rgba(255, 255, 255, 0.06); border: 2px solid rgba(255, 75, 145, 0.4); border-radius: 20px; padding: 30px 20px; max-width: 650px; width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 35px; }
+        .letter-text { font-size: 15px; line-height: 1.8; color: #f0e6ff; text-align: left; white-space: pre-line; }
+        .voucher-box { background: linear-gradient(135deg, #ffe17d, #ffae19); color: #000; padding: 20px; border-radius: 15px; max-width: 550px; width: 100%; margin-bottom: 30px; font-weight: bold; font-size: 18px; display: none; border: 3px dashed #000; box-shadow: 0 8px 25px rgba(255, 174, 25, 0.5); }
+        
+        /* Media Section - Mobile Optimized */
+        .media-container { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 25px; margin-top: 10px; align-items: center; }
+        .media-box { width: 100%; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.6); border: 3px solid rgba(255, 75, 145, 0.4); background: #141124; position: relative; }
+        .media-box video, .media-box img { width: 100%; height: auto; display: block; object-fit: contain; }
+        .media-title { color: #ff7676; font-size: 16px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-song" src="tose_naina.mp3" loop></audio>
+    <audio id="yes-song" src="pariyon_kahani.mp3" loop></audio>
+
+    <div id="pass-screen" class="screen active">
+        <div class="pass-box">
+            <div class="lock-icon">🔒</div>
+            <h2>Authentication Required</h2>
+            <p style="margin-bottom: 15px; color: #aaa; font-size: 14px;">Enter the secret code to unlock your surprise</p>
+            <input type="password" id="password-input" placeholder="Enter Password..."><br>
+            <button class="btn" onclick="checkPassword()">Unlock ✨</button>
+        </div>
+    </div>
+
+    <div id="wish-screen" class="screen">
+        <h1 class="big-wish">HAPPY BIRTHDAY</h1>
+        <h2 class="sub-wish">NUZU 👑</h2>
+        <div style="font-size: 35px; margin: 20px 0;">🎉 🎂 🎈 ✨</div>
+        <button class="btn" onclick="nextScreen('wish-screen', 'fairy-screen')">Next Surprise ➔</button>
+    </div>
+
+    <div id="fairy-screen" class="screen">
+        <div class="question-box">
+            <h2 style="font-size: 22px; line-height: 1.5; margin-bottom: 10px; padding: 0 10px;">Kya aapne kabhi pariya dekhi hain? 🧚✨</h2>
+            <button class="btn" onclick="playYesGame()">Nahi ❌</button>
+        </div>
+    </div>
+
+    <div id="text-screen" class="screen">
+        <h1 class="big-bold-text">Lo toh dekh lo! 😍✨</h1>
+        <button class="btn" onclick="nextScreen('text-screen', 'poster1-screen')">Dekhao ➔</button>
+    </div>
+
+    <!-- 3 Photo Screens -->
+    <div id="poster1-screen" class="screen poster-screen">
+        <div class="poster-wrapper">
+            <img src="photo1.jpg" alt="Poster 1">
+        </div>
+        <button class="btn" onclick="nextScreen('poster1-screen', 'poster2-screen')">Next ➔</button>
+    </div>
+
+    <div id="poster2-screen" class="screen poster-screen">
+        <div class="poster-wrapper">
+            <img src="photo2.jpg" alt="Poster 2">
+        </div>
+        <button class="btn" onclick="nextScreen('poster2-screen', 'poster4-screen')">Next ➔</button>
+    </div>
+
+    <div id="poster4-screen" class="screen poster-screen">
+        <div class="poster-wrapper">
+            <img src="photo4.jpg" alt="Poster 3">
+        </div>
+        <button class="btn" onclick="nextScreen('poster4-screen', 'balloon-screen')">Next ➔</button>
+    </div>
+
+    <div id="balloon-screen" class="screen">
+        <div class="balloon-container">
+            <div class="balloon" onclick="popBalloon(this)">🎈</div>
+            <div class="balloon" onclick="popBalloon(this)">🎈</div>
+            <div class="balloon" onclick="popBalloon(this)">🎈</div>
+        </div>
+        <button id="balloon-next" class="btn" style="display: none;" onclick="nextScreen('balloon-screen', 'cake-screen')">Next ➔</button>
+    </div>
+
+    <div id="cake-screen" class="screen">
+        <div class="cake-container">
+            <div id="candle-flame" class="candle" onclick="blowCandle()">🔥</div>
+            <div id="main-cake" class="cake-emoji">🎂</div>
+        </div>
+        <p id="cake-status" style="color: #aaa; font-style: italic;">Tap the flame to blow it out!</p>
+        <button id="cake-next" class="btn" style="display: none;" onclick="nextScreen('cake-screen', 'mini-game-screen')">Next ➔</button>
+    </div>
+
+    <div id="mini-game-screen" class="screen">
+        <h2>Tap a gift box! 🎁</h2>
+        <div class="box-container">
+            <div class="gift-box-emoji" onclick="playMiniGame(1)">🎁</div>
+            <div class="gift-box-emoji" onclick="playMiniGame(2)">🎁</div>
+            <div class="gift-box-emoji" onclick="pushLetterScreen()">Next ➔</div>
+        </div>
+        <button id="game-next-btn" class="btn" style="display: none;" onclick="openFinalLetter()">Next ➔</button>
+    </div>
+
+    <!-- Final Letter Screen -->
+    <div id="main-screen">
+        <div id="opened-voucher" class="voucher-box">
+            🎟️ BIRTHDAY VOUCHER UNLOCKED!<br><br>
+            <span style="font-size: 14px;">[FREE ICE CREAM PARTY]</span>
+        </div>
+
+        <div class="letter-box">
+            <p class="letter-text">Happy Birthday, Nuzu, Ghost, Doraemon, Daya, Chulbul Pandey, Madam Ji ye sab ho ap ha 👑🤍
+
+Aaj ka din bahut special hai, kyunki aaj ek bahut pyare aur achhe insaan ka birthday hai. 🎂✨
+
+Main dil se dua karta hu ki Allah aapki har khwahish puri kare, aapke har sapne ko haqeeqat banaye, aur aapko hamesha khushi, sukoon aur kamyabi ata farmaye. 🤲🤍
+
+Zindagi me kabhi kabhi mushkil waqt aate hain, kabhi cheezein hamare hisaab se nahi hoti, aur kabhi dil bhi thak jata hai. Lekin ek baat hamesha yaad rakhna: ye waqt bhi guzar jayega. 🌸
+
+Aap jitna sochti ho, usse kahin zyada strong ho. Aur jitni khud ko ordinary samajhti ho, usse kahin zyada special ho. ✨
+
+May your heart always find peace, your mind always find hope, and your life always be filled with reasons to smile. 🤍
+
+Aap haste hue bahut pyari lagti ho, isliye ek chhoti si request hai: chahe jo bhi ho, apni smile ko kabhi mat khona. 🌷😊
+
+Aap khush raho, sehatmand raho, apne sapne poore karo, aur hamesha wahi cute si, thodi si gussu wali, thodi si comedy or ha mujepe gussa nikal ne vali aur bahut hi special Madam Ji bani raho. 👑✨
+
+Stay happy, Princess. You deserve all the love, happiness, peace, and beautiful things life has to offer.
+
+Or ha jo bhi ho khuch bhi me hamesha sath hu thk he koi tension lene ki zarurat nahi he . 🤍👑
+
+Aur akhir me...
+Allah aapko har pareshani se bachaye... sivaye mere. 😂🤍
+
+Happy Birthday once again! 🎂✨🌸
+Have a wonderful year ahead, princess 👑🤍</p>
+        </div>
+
+        <!-- Media Section (Updated with playsinline and controls) -->
+        <div class="media-container">
+            <div>
+                <div class="media-title">A Short Video For You 🎬</div>
+                <div class="media-box">
+                    <video id="short-video" src="video.mp4" controls playsinline preload="auto"></video>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 40px;">
+                <div class="media-title">A Special Photo ❤️</div>
+                <div class="media-box">
+                    <img src="photo.jpg" alt="Special Birthday Memory">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let poppedCount = 0;
+
+        function nextScreen(currentId, nextId) {
+            document.getElementById(currentId).classList.remove('active');
+            const nextScreenEl = document.getElementById(nextId);
+            nextScreenEl.classList.add('active');
+            nextScreenEl.classList.add('slide-in');
+            window.scrollTo(0, 0);
+        }
+
+        function checkPassword() {
+            var val = document.getElementById('password-input').value.trim();
+            if(val === '0506') {
+                try { document.getElementById('bg-song').play(); } catch(e){}
+                nextScreen('pass-screen', 'wish-screen');
+            } else {
+                alert('Wrong Password!');
+            }
+        }
+
+        function playYesGame() {
+            try {
+                document.getElementById('bg-song').pause();
+                document.getElementById('yes-song').play();
+            } catch(e) {}
+            nextScreen('fairy-screen', 'text-screen');
+        }
+
+        function popBalloon(element) {
+            element.innerHTML = "💥";
+            element.classList.add('popped');
+            poppedCount++;
+            if(poppedCount === 3) {
+                document.getElementById('balloon-next').style.display = "inline-block";
+            }
+        }
+
+        function blowCandle() {
+            const flame = document.getElementById('candle-flame');
+            const cake = document.getElementById('main-cake');
+            flame.innerHTML = "💨";
+            flame.classList.add('blown');
+            setTimeout(() => { flame.style.display = 'none'; }, 300);
+            
+            cake.innerHTML = "🍰✨"; 
+            document.getElementById('cake-status').innerHTML = "Cake Cut! 🎉";
+            document.getElementById('cake-next').style.display = "inline-block";
+        }
+
+        function playMiniGame(boxNum) {
+            document.getElementById('game-next-btn').style.display = 'inline-block';
+        }
+        
+        function pushLetterScreen() {
+            document.getElementById('game-next-btn').style.display = 'inline-block';
+        }
+
+        function openFinalLetter() {
+            document.getElementById('mini-game-screen').classList.remove('active');
+            const mainScr = document.getElementById('main-screen');
+            mainScr.style.display = 'flex';
+            mainScr.classList.add('slide-in');
+            document.getElementById('opened-voucher').style.display = 'block';
+            window.scrollTo(0, 0);
+            
+            setupMusicStopper();
+        }
+
+        function setupMusicStopper() {
+            const mainScreen = document.getElementById('main-screen');
+            const shortVideo = document.getElementById('short-video');
+            const bgSong = document.getElementById('bg-song');
+            const yesSong = document.getElementById('yes-song');
+
+            mainScreen.addEventListener('scroll', function() {
+                const videoPos = shortVideo.getBoundingClientRect().top;
+                const screenHeight = window.innerHeight;
+
+                if (videoPos < screenHeight - 100) {
+                    if (!bgSong.paused) bgSong.pause();
+                    if (!yesSong.paused) yesSong.pause();
+                }
+            });
+            
+            shortVideo.addEventListener('play', function() {
+                if (!bgSong.paused) bgSong.pause();
+                if (!yesSong.paused) yesSong.pause();
+            });
+        }
+    </script>
+</body>
+  </html>
+  
